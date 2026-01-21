@@ -216,15 +216,30 @@ Note: The repo does exist and has proper structure.
 
 ---
 
+### 16. 🟠 Missing Exports: detectDependencyChanges and getTrackedDependencyFiles
+
+**Test:** `tests/dependency-detection.test.ts`
+**Expected:** Per FEATURES.md, these functions should be exported
+**Actual:** Neither function is exported from drift-toolkit
+**Impact:** Documented API for dependency change detection is not accessible
+
+```typescript
+// These are documented in FEATURES.md but fail:
+import { detectDependencyChanges, getTrackedDependencyFiles } from "drift-toolkit";
+// Result: undefined (not exported)
+```
+
+---
+
 ## Summary
 
 | Severity | Count |
 |----------|-------|
 | 🔴 Critical | 1 |
-| 🟠 High | 7 |
+| 🟠 High | 8 |
 | 🟡 Medium | 6 |
 | 🟢 Low | 1 |
-| **Total** | **15** |
+| **Total** | **16** |
 
 ---
 
