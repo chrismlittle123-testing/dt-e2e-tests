@@ -32,6 +32,7 @@ import { TIMEOUTS, DEFAULTS } from "drift-toolkit/constants";
 ### 2. 🟠 `getRepoMetadata` Returns Null Instead of Object
 
 **Test:** `tests/library-api.test.ts > should handle missing metadata file`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/91
 **Expected:** When metadata file is missing, should return `{ metadata: null, warnings: [] }`
 **Actual:** Returns `null` directly, causing `TypeError: Cannot read properties of null`
 **Impact:** Inconsistent API behavior, potential runtime crashes
@@ -48,6 +49,7 @@ const result = getRepoMetadata("/path/without/metadata");
 ### 3. 🟠 `discoverFiles` Does Not Exclude Already Protected Files
 
 **Test:** `tests/library-api.test.ts > should exclude already protected files`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/92
 **Expected:** Files passed in the "already protected" array should not appear in discovery results
 **Actual:** Protected files are still included in the discovered array
 **Impact:** Duplicate/incorrect discovery results
@@ -66,6 +68,7 @@ const discovered = discoverFiles(
 ### 4. 🟠 Silent Success When repo-metadata.yaml Is Missing
 
 **Test:** `tests/cli-scan.test.ts > should fail if repo-metadata.yaml is missing`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/93
 **Expected:** Scan should warn or indicate repo is not scannable
 **Actual:** Reports "All checks passed" with no warning
 **Impact:** Users won't know their repos are missing required metadata
@@ -81,6 +84,7 @@ $ drift code scan --path /repo-without-metadata
 ### 5. 🟠 Silent Success When check.toml Is Missing
 
 **Test:** `tests/cli-scan.test.ts > should fail if check.toml is missing`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/94
 **Expected:** Scan should warn or indicate repo is not scannable
 **Actual:** Reports "All checks passed" with no warning
 **Impact:** Users won't know their repos are missing required configuration
@@ -96,6 +100,7 @@ $ drift code scan --path /repo-without-check-toml
 ### 6. 🟠 Silent Success With Malformed repo-metadata.yaml
 
 **Test:** `tests/edge-cases.test.ts > should handle malformed repo-metadata.yaml`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/95
 **Expected:** Should report YAML parse error or validation warning
 **Actual:** Reports "All checks passed" silently
 **Impact:** Invalid metadata goes undetected
@@ -156,6 +161,7 @@ $ drift code scan --org myorg --repo nonexistent-repo
 
 ### 11. 🟠 EACCES Error Not Handled Gracefully
 
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/96
 **Observed During Tests:**
 When a file has no read permissions, drift-toolkit throws an unhandled EACCES error instead of catching and reporting it gracefully.
 
@@ -198,6 +204,7 @@ const result = runScan({ name: "test", command: "echo 'test'", severity: "critic
 ### 14. 🟠 Missing Exports: detectDependencyChanges and getTrackedDependencyFiles
 
 **Test:** `tests/dependency-detection.test.ts`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/97
 **Expected:** Per FEATURES.md, these functions should be exported
 **Actual:** Neither function is exported from drift-toolkit
 **Impact:** Documented API for dependency change detection is not accessible
@@ -213,6 +220,7 @@ import { detectDependencyChanges, getTrackedDependencyFiles } from "drift-toolki
 ### 15. 🔴 Org Scanning Fails to Find Config Repo
 
 **Test:** `tests/org-scanning.test.ts > Pre-Clone Filtering`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/90
 **Expected:** Organization scanning should find and use `drift-config` repo
 **Actual:** Always returns "Config repo not found" even when repo exists with correct structure
 **Impact:** **BLOCKING** - All organization-level scanning is non-functional
@@ -248,7 +256,8 @@ $ gh api repos/chrismlittle123-testing/drift-config --jq '.name'
 
 ### 16. 🟠 CLI Ignores Scan Timeout Configuration
 
-**Test:** Manual verification with CLI
+**Test:** `tests/cli-scan.test.ts > should respect scan timeout`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/98
 **Expected:** `drift code scan` should kill scans that exceed the configured timeout
 **Actual:** Timeout configuration is ignored; scans run to completion regardless of timeout value
 **Impact:** Long-running scans cannot be interrupted; potential for CI/CD timeouts
