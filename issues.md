@@ -246,15 +246,41 @@ $ gh api repos/chrismlittle123-testing/drift-config --jq '.name'
 
 ---
 
+### 16. 🟠 CLI Ignores Scan Timeout Configuration
+
+**Test:** Manual verification with CLI
+**Expected:** `drift code scan` should kill scans that exceed the configured timeout
+**Actual:** Timeout configuration is ignored; scans run to completion regardless of timeout value
+**Impact:** Long-running scans cannot be interrupted; potential for CI/CD timeouts
+
+**Note:** The library API's `runScan()` function DOES honor timeout - this is CLI-specific
+
+```yaml
+# drift.config.yaml
+scans:
+  - name: slow-scan
+    command: sleep 5 && echo done
+    timeout: 500  # 500ms timeout - should be killed quickly
+    severity: high
+```
+
+```bash
+$ time drift code scan --path ./repo --config ./config/drift.config.yaml
+# Expected: Should fail/timeout after ~500ms
+# Actual: Runs for full 5 seconds, then shows "passed (5014ms)"
+```
+
+---
+
 ## Summary
 
 | Severity | Count |
 |----------|-------|
 | 🔴 Critical | 2 |
-| 🟠 High | 7 |
+| 🟠 High | 8 |
 | 🟡 Medium | 5 |
 | 🟢 Low | 1 |
-| **Total** | **15** |
+| **Total** | **16** |
 
 ---
 
