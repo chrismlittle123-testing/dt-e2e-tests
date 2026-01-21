@@ -41,10 +41,32 @@ export function exec(command: string, options: { cwd?: string; env?: NodeJS.Proc
 }
 
 /**
+ * Get GitHub token from gh CLI
+ */
+export function getGitHubToken(): string {
+  try {
+    return execSync("gh auth token", { encoding: "utf-8" }).trim();
+  } catch {
+    return "";
+  }
+}
+
+/**
  * Run drift CLI command
  */
 export function drift(args: string, options: { cwd?: string; env?: NodeJS.ProcessEnv } = {}): ExecResult {
   return exec(`npx drift-toolkit ${args}`, options);
+}
+
+/**
+ * Run drift CLI command with GitHub token automatically included
+ */
+export function driftWithToken(args: string, options: { cwd?: string; env?: NodeJS.ProcessEnv } = {}): ExecResult {
+  const token = getGitHubToken();
+  return exec(`npx drift-toolkit ${args}`, {
+    ...options,
+    env: { ...options.env, GITHUB_TOKEN: token },
+  });
 }
 
 /**
