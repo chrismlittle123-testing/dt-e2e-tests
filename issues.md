@@ -164,15 +164,67 @@ Error: EACCES: permission denied, open '.../CODEOWNERS'
 
 ---
 
+### 12. 🟡 `runScan` Result Missing `stderr` Property
+
+**Test:** `tests/scanning-api.test.ts > should capture stderr from scan`
+**Expected:** Per FEATURES.md, `ScanResult` should include `stderr` property
+**Actual:** `result.stderr` is `undefined`
+**Impact:** Cannot capture error output from scans
+
+```typescript
+const result = runScan({ name: "test", command: "echo 'error' >&2", severity: "low" }, path);
+// result.stderr is undefined
+```
+
+---
+
+### 13. 🟡 `runScan` Result Missing `severity` Property
+
+**Test:** `tests/scanning-api.test.ts > should include severity in result`
+**Expected:** Per FEATURES.md, `ScanResult` should include `severity` property
+**Actual:** `result.severity` is `undefined`
+**Impact:** Cannot determine scan severity from result
+
+```typescript
+const result = runScan({ name: "test", command: "echo 'test'", severity: "critical" }, path);
+// result.severity is undefined (expected "critical")
+```
+
+---
+
+### 14. 🟡 Type Export: Several Types May Not Match Documentation
+
+**Test:** `tests/types.test.ts`
+**Observed:** Some documented types in FEATURES.md may not precisely match actual exports
+**Impact:** Type definitions may not align with runtime behavior
+
+---
+
+### 15. 🟠 Config Repo Clone Errors in Some Environments
+
+**Test:** `tests/org-scanning.test.ts`
+**Observed:** "Config repo not found" errors even when repo exists
+**Possible Cause:** Authentication or token passing issues during clone
+**Impact:** Org scanning fails in certain environments
+
+```
+Error: Config repo chrismlittle123-testing/drift-config not found.
+Create a 'drift-config' repo with drift.config.yaml and approved/ folder.
+```
+
+Note: The repo does exist and has proper structure.
+
+---
+
 ## Summary
 
 | Severity | Count |
 |----------|-------|
 | 🔴 Critical | 1 |
-| 🟠 High | 6 |
-| 🟡 Medium | 3 |
+| 🟠 High | 7 |
+| 🟡 Medium | 6 |
 | 🟢 Low | 1 |
-| **Total** | **11** |
+| **Total** | **15** |
 
 ---
 
