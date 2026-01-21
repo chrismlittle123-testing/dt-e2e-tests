@@ -2,6 +2,8 @@
 
 This document tracks bugs and issues discovered through E2E testing.
 
+**Tested Version:** 1.14.1 (latest)
+
 ## Legend
 - 🔴 Critical - Blocking functionality
 - 🟠 High - Significant impact
@@ -16,8 +18,9 @@ This document tracks bugs and issues discovered through E2E testing.
 
 **Test:** `tests/constants.test.ts`
 **Expected:** `drift-toolkit/constants` should be importable as documented in FEATURES.md
-**Actual:** Import fails with "Does the file exist?" error
+**Actual:** Import fails with "ERR_MODULE_NOT_FOUND" error
 **Impact:** Documented API for constants is not accessible
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/89
 
 ```typescript
 // This fails:
@@ -192,31 +195,7 @@ const result = runScan({ name: "test", command: "echo 'test'", severity: "critic
 
 ---
 
-### 14. 🟡 Type Export: Several Types May Not Match Documentation
-
-**Test:** `tests/types.test.ts`
-**Observed:** Some documented types in FEATURES.md may not precisely match actual exports
-**Impact:** Type definitions may not align with runtime behavior
-
----
-
-### 15. 🟠 Config Repo Clone Errors in Some Environments
-
-**Test:** `tests/org-scanning.test.ts`
-**Observed:** "Config repo not found" errors even when repo exists
-**Possible Cause:** Authentication or token passing issues during clone
-**Impact:** Org scanning fails in certain environments
-
-```
-Error: Config repo chrismlittle123-testing/drift-config not found.
-Create a 'drift-config' repo with drift.config.yaml and approved/ folder.
-```
-
-Note: The repo does exist and has proper structure.
-
----
-
-### 16. 🟠 Missing Exports: detectDependencyChanges and getTrackedDependencyFiles
+### 14. 🟠 Missing Exports: detectDependencyChanges and getTrackedDependencyFiles
 
 **Test:** `tests/dependency-detection.test.ts`
 **Expected:** Per FEATURES.md, these functions should be exported
@@ -236,11 +215,12 @@ import { detectDependencyChanges, getTrackedDependencyFiles } from "drift-toolki
 | Severity | Count |
 |----------|-------|
 | 🔴 Critical | 1 |
-| 🟠 High | 8 |
-| 🟡 Medium | 6 |
+| 🟠 High | 7 |
+| 🟡 Medium | 5 |
 | 🟢 Low | 1 |
-| **Total** | **16** |
+| **Total** | **14** |
 
 ---
 
 *Last updated: 2026-01-21*
+*Tested version: drift-toolkit@1.14.1*
