@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { exec, drift, getTestOrg, createTempDir, writeFile } from "../src/utils.js";
 import { join } from "path";
-import { rmSync, existsSync, mkdirSync } from "fs";
+import { rmSync, existsSync, mkdirSync, readFileSync } from "fs";
 
 const TEST_ORG = getTestOrg();
 const TEMP_DIRS: string[] = [];
@@ -236,7 +236,6 @@ integrity:
       expect(fixResult.exitCode).toBe(0);
 
       // Check file was updated
-      const { readFileSync } = await import("fs");
       const content = readFileSync(join(tempDir, "repo", "LICENSE"), "utf-8");
       expect(content).toBe("MIT License\n\nCopyright (c) 2024\n");
     });
