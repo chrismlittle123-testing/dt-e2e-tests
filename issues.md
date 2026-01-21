@@ -116,6 +116,7 @@ status: broken
 ### 7. 🟡 Silent Success With Empty repo-metadata.yaml
 
 **Test:** `tests/edge-cases.test.ts > should handle empty repo-metadata.yaml`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/99
 **Expected:** Should warn about empty/missing required fields
 **Actual:** Reports "All checks passed" silently
 **Impact:** Empty metadata files go undetected
@@ -125,6 +126,7 @@ status: broken
 ### 8. 🟡 Silent Success With Malformed check.toml
 
 **Test:** `tests/edge-cases.test.ts > should handle malformed check.toml`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/100
 **Expected:** Should report TOML parse error
 **Actual:** Reports "All checks passed" silently
 **Impact:** Invalid TOML configuration goes undetected
@@ -138,6 +140,7 @@ status: broken
 ### 9. 🟡 Non-Existent Repo Shows "Skipped" Instead of "Not Found"
 
 **Test:** `tests/org-scanning.test.ts > should fail when repo does not exist`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/101
 **Expected:** Should report "repo not found" or similar error
 **Actual:** Shows "skipped (missing required files)"
 **Impact:** Misleading error message - users may think repo exists but lacks files
@@ -176,6 +179,7 @@ Error: EACCES: permission denied, open '.../CODEOWNERS'
 ### 12. 🟡 `runScan` Result Missing `stderr` Property
 
 **Test:** `tests/scanning-api.test.ts > should capture stderr from scan`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/102
 **Expected:** Per FEATURES.md, `ScanResult` should include `stderr` property
 **Actual:** `result.stderr` is `undefined`
 **Impact:** Cannot capture error output from scans
@@ -190,6 +194,7 @@ const result = runScan({ name: "test", command: "echo 'error' >&2", severity: "l
 ### 13. 🟡 `runScan` Result Missing `severity` Property
 
 **Test:** `tests/scanning-api.test.ts > should include severity in result`
+**GitHub Issue:** https://github.com/chrismlittle123/drift-toolkit/issues/103
 **Expected:** Per FEATURES.md, `ScanResult` should include `severity` property
 **Actual:** `result.severity` is `undefined`
 **Impact:** Cannot determine scan severity from result
