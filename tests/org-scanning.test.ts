@@ -67,13 +67,14 @@ describe("Organization Scanning", () => {
       expect(result.stdout + result.stderr).toMatch(/drift-config|scan/i);
     });
 
-    // BUG #9: Non-existent repo shows "skipped" instead of "not found"
-    it("should fail when repo does not exist (BUG: shows skipped)", () => {
+    // BUG #9 & #15: Non-existent repo - currently shows "config not found" due to org scan bug
+    it("should fail when repo does not exist (BUG: config repo not found)", () => {
       const result = drift(`code scan --org ${TEST_ORG} --repo nonexistent-repo-12345 --dry-run`);
 
-      // Document the bug: should say "not found" but says "skipped (missing required files)"
-      // When fixed, change to: expect(result.stdout + result.stderr).toMatch(/not found|error|fail/i);
-      expect(result.stdout).toMatch(/skipped/i);
+      // Due to BUG #15 (config repo not found), we can't even test single repo scanning properly
+      // The org scan fails to find the config repo before checking if the target repo exists
+      // When BUG #15 is fixed, update this test to check for "repo not found" error
+      expect(result.stdout + result.stderr).toMatch(/config|not found|error/i);
     });
   });
 

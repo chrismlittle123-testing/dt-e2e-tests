@@ -210,15 +210,51 @@ import { detectDependencyChanges, getTrackedDependencyFiles } from "drift-toolki
 
 ---
 
+### 15. 🔴 Org Scanning Fails to Find Config Repo
+
+**Test:** `tests/org-scanning.test.ts > Pre-Clone Filtering`
+**Expected:** Organization scanning should find and use `drift-config` repo
+**Actual:** Always returns "Config repo not found" even when repo exists with correct structure
+**Impact:** **BLOCKING** - All organization-level scanning is non-functional
+
+**Verified Conditions:**
+- Config repo `chrismlittle123-testing/drift-config` exists
+- Repo is public
+- Contains `drift.config.yaml` at root
+- Contains `approved/` directory with files
+- Accessible via GitHub API and git clone
+
+```bash
+$ drift code scan --org chrismlittle123-testing --all
+# Output: "Error: Config repo chrismlittle123-testing/drift-config not found.
+#          Create a 'drift-config' repo with drift.config.yaml and approved/ folder."
+
+# Even with explicit --config-repo flag:
+$ drift code scan --org chrismlittle123-testing --config-repo drift-config --all
+# Same error
+
+# But the repo exists and is accessible:
+$ gh api repos/chrismlittle123-testing/drift-config --jq '.name'
+# Output: drift-config
+```
+
+**Note:** This bug blocks testing of several other features:
+- Smart scanning (only recent commits)
+- Pre-clone filtering
+- Single repo scanning via --repo flag
+- Exclusion patterns
+
+---
+
 ## Summary
 
 | Severity | Count |
 |----------|-------|
-| 🔴 Critical | 1 |
+| 🔴 Critical | 2 |
 | 🟠 High | 7 |
 | 🟡 Medium | 5 |
 | 🟢 Low | 1 |
-| **Total** | **14** |
+| **Total** | **15** |
 
 ---
 
